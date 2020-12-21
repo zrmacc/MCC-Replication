@@ -1,0 +1,10 @@
+# Ensure dependencies in Rscripts/Dependencies.R are installed. 
+
+# Simulations to check asymptotic variance of area under the mean cumulative function.
+sh VarSim.sh
+
+# Simulations to check the bootstrap variance of area under the mean cumulative function.
+sh BootSim.sh
+
+# Analysis of bladder cancer data from the `survival` package.
+sh Bladder.sh
