@@ -4,33 +4,22 @@
 library(dplyr)
 library(MCC) # devtools::install_github(repo = "zrmacc/MCC")
 library(survival)
-set.seed(2013)
+data <- readRDS(file = "Data/bladder_data.rds")
 
-# ----------------------------------------------------------------------------
-# Data formatting.
-# ----------------------------------------------------------------------------
-
-# Format bladder data
-data <- bladder1 %>%
-  dplyr::filter(treatment != "pyridoxine" & stop > start) %>%
-  dplyr::select("id", "stop", "status", "treatment", "size", "number") %>%
-  dplyr::rename(idx = id, time = stop) %>%
-  dplyr::mutate(arm = 1 * (treatment == "thiotepa")) %>%
-  dplyr::select(-"treatment")
-data$status[data$status > 1] <- 2
+# Composite endpoint data.
+data_comp <- data
+data_comp$status[data_comp$status > 1] <- 1
 
 # -----------------------------------------------------------------------------
 # Composite endpoint of recurrence or death.
 # -----------------------------------------------------------------------------
 
 # Death as within the event. No agumentation.
-data_comp <- data
-data_comp$status[data_comp$status > 1] <- 1
 fit_comp_base <- MCC::CompareAUCs(
+  idx = data_comp$idx,
   time = data_comp$time,
   status = data_comp$status,
   arm = data_comp$arm,
-  idx = data_comp$idx,
   perm = TRUE,
   boot = TRUE,
   reps = 2000,
@@ -39,11 +28,11 @@ fit_comp_base <- MCC::CompareAUCs(
 
 # Death within the event. With augmentation.
 fit_comp_aug <- MCC::CompareAUCs(
+  idx = data_comp$idx,
   time = data_comp$time,
   status = data_comp$status,
   arm = data_comp$arm,
-  idx = data_comp$idx,
-  covar = data_comp %>% dplyr::select(c("size", "number")),
+  covars = data_comp %>% dplyr::select(c("size", "number")),
   perm = TRUE,
   boot = TRUE,
   reps = 2000,
@@ -56,10 +45,10 @@ fit_comp_aug <- MCC::CompareAUCs(
 
 # Death as competing risk. No augmentation.
 fit_cr_base <- MCC::CompareAUCs(
+  idx = data$idx,
   time = data$time,
   status = data$status,
   arm = data$arm,
-  idx = data$idx,
   perm = TRUE,
   boot = TRUE,
   reps = 2000,
@@ -68,11 +57,11 @@ fit_cr_base <- MCC::CompareAUCs(
 
 # Death as competing risk. With augmentation.
 fit_cr_aug <- MCC::CompareAUCs(
+  idx = data$idx,
   time = data$time,
   status = data$status,
   arm = data$arm,
-  idx = data$idx,
-  covar = data %>% dplyr::select(c("size", "number")),
+  covars = data %>% dplyr::select(c("size", "number")),
   perm = TRUE,
   boot = TRUE,
   reps = 2000,

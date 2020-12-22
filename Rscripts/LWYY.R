@@ -1,22 +1,14 @@
 # Purpose: LWYY estimate of rate ratio. 
 # Updated: 2020-12-18
 
-# -----------------------------------------------------------------------------
-# Data preparation.
-# -----------------------------------------------------------------------------
-
 library(survival)
-data <- subset(
-  x = bladder1,
-  treatment %in% c("placebo", "thiotepa") & stop > start
-)
-data$arm <- 1 * (data$treatment == "thiotepa")
+data <- readRDS(file = "Data/bladder_data.rds")
 
 # Death is treated as censoring. 
 data$status[data$status > 1] <- 0 
 
 # -----------------------------------------------------------------------------
-# Data preparation.
+# LWYY analysis.
 # -----------------------------------------------------------------------------
 
 #' Data supplied to `Surv` using gap-time formatting.

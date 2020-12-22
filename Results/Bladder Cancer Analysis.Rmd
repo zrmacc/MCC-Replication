@@ -1,0 +1,83 @@
+---
+title: "Bladder Cancer Analysis"
+author: "Zachary McCaw"
+date: "2020-12-21"
+output: 
+  html_document:
+    theme: spacelab
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE, 
+  results = "hold", 
+  fig.align = "center"
+  )
+```
+
+## Data
+
+The analysis includes all data in `survival::bladder1` treated with `placebo` or `thiotepa`, and excluding 1 subject (`id == 1`) whose observation `start` and `stop` times were both equal to zero. 
+
+## LWYY Analysis
+
+#### Without Covariate Adjustment
+
+```{r}
+load(file = "lwyy.RData")
+library(survival)
+summary(lwyy0)
+```
+
+#### With Covariate Adjustment
+
+```{r}
+summary(lwyy1)
+```
+
+## AU MCF Analysis
+
+### Composite Endpoint of Recurrence or Death
+
+```{r}
+data <- readRDS(file = "../Data/bladder_data.rds")
+cmp_data <- data
+cmp_data$status[cmp_data$status == 2] <- 1
+source("../Rscripts/PlotMCF.R")
+
+PlotMCFs(data = data, title = "Composite Endpoint", y_lim = c(0, 3), x_max = 60)
+```
+
+#### Baseline Analysis
+
+```{r}
+load("../Results/aumcf.RData")
+fit_comp_base
+```
+
+#### Augmentation Analysis
+
+```{r}
+fit_comp_aug
+```
+
+### Recurrence with Death as a Competing Risk
+
+```{r}
+data <- readRDS(file = "../Data/bladder_data.rds")
+PlotMCFs(data = data, title = "Competing Risk", y_lim = c(0, 3), x_max = 60)
+```
+
+#### Baseline Analysis
+
+```{r}
+fit_cr_base
+```
+
+#### Augmentation Analysis
+
+```{r}
+fit_cr_aug
+```
+
+
