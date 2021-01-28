@@ -10,5 +10,7 @@ do
 	d=$(echo ${line} | awk "{print \$4}")
 
 	# Run simulation.
+	# Specify the number of simulation replicates 'reps', the number of bootstrap samples per replicate 'boot', 
+	# and the output directory 'out'.
 	Rscript Rscripts/BootSim.R --n ${n} --time ${t} --censor ${c} --death ${d} --reps 2 --boot 2 --out "Simulations/Boot/";
 done

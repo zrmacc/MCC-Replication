@@ -1,5 +1,10 @@
 # Ensure dependencies in Rscripts/Dependencies.R are installed. 
 
+# Simulation settings, including sample size, truncation time, censoring and death rate,
+# are stored under Configs. The simulation shell script will read the simulation settings
+# from the config and pass these to an R script to run the simulation. The simulation 
+# results are saved under Simulations.
+
 # Simulations to check asymptotic variance of area under the mean cumulative function.
 sh VarSim.sh
 
