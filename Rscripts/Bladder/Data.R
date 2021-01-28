@@ -1,3 +1,5 @@
+# Purpose: Prepare data for bladder cancer analysis.
+
 library(dplyr)
 library(survival)
 

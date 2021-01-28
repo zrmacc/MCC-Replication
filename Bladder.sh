@@ -1,3 +1,3 @@
 #!/bin/bash
-Rscript Rscripts/LWYY.R;
-Rscript Rscripts/AUMCF.R;
+Rscript Rscripts/Bladder/LWYY.R;
+Rscript Rscripts/Bladder/AUMCF.R;

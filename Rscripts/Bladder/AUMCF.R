@@ -2,7 +2,7 @@
 # Created: 2020-12-09
 # Updated: 2020-12-21
 library(dplyr)
-library(MCC) # devtools::install_github(repo = "zrmacc/MCC")
+library(MCC)
 library(survival)
 data <- readRDS(file = "Data/bladder_data.rds")
 

@@ -1,4 +1,4 @@
-# Purpose: Validate variance estimator.
+# Purpose: Validate bootstrap variance estimator.
 # Updated: 2020-12-20
 
 # Packages.
@@ -100,11 +100,20 @@ sim <- do.call(rbind, sim)
 # Summarize.
 # -----------------------------------------------------------------------------
 
+# Summarized simulation results.
 out <- data.frame(
-  "evar" = var(sim[, 1]),
-  "avar" = mean(sim[, 2]^2),
-  "bvar" = mean(sim[, 3]^2)
+  "empirical_var" = var(sim[, 1]),
+  "asymptotic_var" = mean(sim[, 2]^2),
+  "bootstrap_var" = mean(sim[, 3]^2)
 )
+
+# Store simulation settings.
+out$n <- params$n
+out$time <- params$time
+out$censor <- params$censor
+out$death <- params$death
+out$reps <- params$reps
+out$boot <- params$boot
 
 out_stem <- paste0(params$out)
 if (!dir.exists(out_stem)) {dir.create(out_stem, recursive = TRUE)}

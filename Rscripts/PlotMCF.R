@@ -1,3 +1,6 @@
+# Purpose: Function to plot the mean cumulative functions,
+# comparing two treatment arms.
+
 library(cowplot)
 library(ggplot2)
 library(MCC)
@@ -8,7 +11,8 @@ library(MCC)
 #' @param data Data including time, status, idx, arm.
 #' @param title Plot title.
 #' @param trt_color Color for treatment arm.
-#' @param x_max Upper limit for x-axis.
+#' @param x_max X-axis upper limit.
+#' @param y_lim Y-axis limits.
 #' @return ggplot.
 
 PlotMCFs <- function(
@@ -16,8 +20,8 @@ PlotMCFs <- function(
   data,
   title,
   trt_color = "#6385B8",
-  x_max,
-  y_lim
+  x_max = NULL,
+  y_lim = NULL
 ) {
   
   # Split data.

@@ -1,8 +1,9 @@
 ---
 title: "Bladder Cancer Analysis"
 author: "Zachary McCaw"
-date: "2020-12-21"
-output: 
+date: '2020-12-21'
+output:
+  pdf_document: default
   html_document:
     theme: spacelab
 ---

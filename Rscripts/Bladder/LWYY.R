@@ -1,4 +1,4 @@
-# Purpose: LWYY estimate of rate ratio. 
+# Purpose: LWYY estimate of rate ratio for bladder cancer data.
 # Updated: 2020-12-18
 
 library(survival)

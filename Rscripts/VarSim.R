@@ -1,4 +1,4 @@
-# Purpose: Validate variance estimator.
+# Purpose: Validate analytic variance estimator.
 # Updated: 2020-12-21
 
 # Packages.
@@ -78,9 +78,10 @@ Loop <- function(i) {
   
   if (class(stats) != "try-error") {
     out <- c(
-      "Obs" = stats$contrasts$observed,
-      "SE" = stats$contrasts$se
+      stats$contrasts$observed,
+      stats$contrasts$se
     )
+    # Difference and ratio of AUMCFs, and the corresponding standard errors.
     names(out) <- c("diff", "ratio", "se_diff", "se_ratio")
     return(out)
   }
@@ -93,15 +94,22 @@ sim <- do.call(rbind, sim)
 # Summarize.
 # -----------------------------------------------------------------------------
 
+# Summarized simulation results.
 out <- data.frame(
-  "reps" = params$reps,
-  "diff" = mean(sim[, 1]),
-  "ratio" = mean(sim[, 2]),
-  "evar_diff" = var(sim[, 1]),
-  "evar_ratio" = var(sim[, 2]),
-  "avar_diff" = mean(sim[, 3]^2),
-  "avar_ratio" = mean(sim[, 4]^2)
+  "mean_diff" = mean(sim[, 1]),
+  "mean_ratio" = mean(sim[, 2]),
+  "empirical_var_diff" = var(sim[, 1]),
+  "empirical_var_ratio" = var(sim[, 2]),
+  "asymptotic_var_diff" = mean(sim[, 3]^2),
+  "asymptotic_var_ratio" = mean(sim[, 4]^2)
 )
+
+# Store simulation settings.
+out$n <- params$n
+out$time <- params$time
+out$censor <- params$censor
+out$death <- params$death
+out$reps <- params$reps
 
 out_stem <- paste0(params$out)
 if (!dir.exists(out_stem)) {dir.create(out_stem, recursive = TRUE)}
