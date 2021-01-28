@@ -105,7 +105,7 @@ out <- data.frame(
 )
 
 # Store simulation settings.
-out$n <- params$n
+out$n <- 2 * params$n
 out$time <- params$time
 out$censor <- params$censor
 out$death <- params$death
